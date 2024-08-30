@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { Quizz } from "../../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFlip, Navigation, Pagination } from "swiper/modules";
+import SwiperCore from "swiper"
 
 // Import Swiper styles
 import "swiper/css";
@@ -19,16 +20,16 @@ const FlashCard = () => {
   const swiperRef = useRef(null);
 
   const handleNext = () => {
-    if (swiperRef.current) {
-      swiperRef.current.swiper.slideNext();
-    }
+    // if (swiperRef.current) {
+      swiperRef.current?.slideNext();
+    // }
     setShowDefinition(false)
   };
 
   const handlePrev = () => {
-    if (swiperRef.current) {
-      swiperRef.current.swiper.slidePrev();
-    }
+    // if (swiperRef.current) {
+      swiperRef.current?.slidePrev();
+    // }
     setShowDefinition(false)
   };
 
@@ -53,10 +54,13 @@ const FlashCard = () => {
         }}
         navigation={false}
         modules={[Navigation, EffectFlip, Pagination]}
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper; // Set the swiper instance to the ref
+        }}
         onSlideChange={(swiper) => {
           setActiveIndex(swiper.activeIndex);
         }}
-        ref={swiperRef}
+        // ref={swiperRef}
         className='mySwiper container'
       >
         {quiz.questions.map((question, index) => (
