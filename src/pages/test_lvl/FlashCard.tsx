@@ -3,7 +3,6 @@ import { useOutletContext } from "react-router-dom";
 import { Quizz } from "../../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFlip, Navigation, Pagination } from "swiper/modules";
-import SwiperCore from "swiper"
 
 // Import Swiper styles
 import "swiper/css";
