@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 import { useAppSelector } from "../redux";
 import { Quizz } from "../interfaces";
 
