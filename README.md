@@ -15,3 +15,4 @@ This project it a skeleton of **React** and **Vite** (and **Typescript**)! It wa
 The **tsconfig.json** is already set up to handle types from a `@types` folder inside the `src` directory.
 # question
 # quiz
+# questions
