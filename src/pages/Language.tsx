@@ -74,8 +74,9 @@ const Language = () => {
   return (
     <div className='container'>
       <div style={{ marginTop: 30 }} className='title_row'>
-        <h1>Choice Language</h1>
+        <h1></h1>
         <div style={{ display: "flex", gap: 20 }}>
+          <h1>Langugae: </h1>
           <select
             onChange={handleLanguageChange}
             style={{ border: "none", outline: "none" }}
@@ -86,33 +87,34 @@ const Language = () => {
               </option>
             ))}
           </select>
-          <h1>Your language:: {language}</h1>
         </div>
       </div>
-      <div style={{ marginTop: 30, overflow: "hidden" }}>
-        <Stage
-          width={10000}
-          height={400}
-          onMouseDown={handleMouseDown}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          ref={stageRef}
-          style={{ border: "1px solid red", background: "white" }}
-        >
-          <Layer>
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                points={line}
-                strokeEnabled
-                strokeScaleEnabled
-                fillAfterStrokeEnabled
-                stroke='black'
-                strokeWidth={10}
-              />
-            ))}
-          </Layer>
-        </Stage>
+      <div style={{ marginTop: 30 }}>
+        <div style={{overflow: "hidden", width: "100%", height: "400px", border: "10px solid red"}}>
+          <Stage
+            width={10000}
+            height={400}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            ref={stageRef}
+            style={{ border: "1px solid red", background: "white" }}
+          >
+            <Layer>
+              {lines.map((line, i) => (
+                <Line
+                  key={i}
+                  points={line}
+                  strokeEnabled
+                  strokeScaleEnabled
+                  fillAfterStrokeEnabled
+                  stroke='black'
+                  strokeWidth={10}
+                />
+              ))}
+            </Layer>
+          </Stage>
+        </div>
         <div style={{ display: "flex", gap: 20 }}>
           <button onClick={handleRecognizeText} className='createBtn'>
             Submit
