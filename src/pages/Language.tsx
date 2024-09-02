@@ -89,9 +89,9 @@ const Language = () => {
           <h1>Your language:: {language}</h1>
         </div>
       </div>
-      <div style={{ marginTop: 30 }}>
+      <div style={{ marginTop: 30, overflow: "hidden" }}>
         <Stage
-          width={400}
+          width={10000}
           height={400}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
