@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import Tesseract from "tesseract.js";
-import CanvasDraw from "react-canvas-draw";
+import { Stage, Layer, Line } from "react-konva";
 
 const Language = () => {
-  const canvasRef = useRef<CanvasDraw>(null);
   const [recognizedText, setRecognizedText] = useState("");
   const [language, setLanguage] = useState("eng");
+  const [lines, setLines] = useState([]);
+  const isDrawing = useRef(false);
+  const stageRef = useRef(null);
 
   useEffect(() => {
     const savedLanguage = sessionStorage.getItem("selectedLanguage");
@@ -14,73 +16,59 @@ const Language = () => {
     }
   }, []);
 
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleLanguageChange = (e) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
     sessionStorage.setItem("selectedLanguage", selectedLanguage);
   };
 
-  const handleRecognizeText = () => {
-    if (canvasRef.current) {
-      const canvas = canvasRef.current.canvasContainer
-        .children[1] as HTMLCanvasElement;
-      const image = canvas.toDataURL("image/png");
+  const handleMouseDown = () => {
+    isDrawing.current = true;
+    setLines([...lines, []]);
+  };
 
-      Tesseract.recognize(image, language, {
-        logger: (info: string) => console.log(info),
-      })
-        .then(({ data: { text } }) => {
-          setRecognizedText(text);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+  const handleMouseMove = (e) => {
+    if (!isDrawing.current) {
+      return;
     }
+    const stage: any = stageRef.current;
+    const point = stage.getPointerPosition();
+    let lastLine: any = lines[lines.length - 1];
+    lastLine = [...lastLine, point.x, point.y];
+    setLines([...lines.slice(0, -1), lastLine]);
+  };
+
+  const handleMouseUp = () => {
+    isDrawing.current = false;
+  };
+
+  const handleRecognizeText = () => {
+    const stage = stageRef.current;
+    if (!stage) return;
+
+    const dataURL = stage.toDataURL();
+    Tesseract.recognize(dataURL, language, {
+      logger: (info: string) => console.log(info),
+    })
+      .then(({ data: { text } }) => {
+        setRecognizedText(text);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
 
   const handleClearCanvas = () => {
-    if (canvasRef.current) {
-      canvasRef.current.clear();
-    }
+    setLines([]);
   };
 
-  interface ILangugae {
-    id: number;
-    name: string;
-    value: string;
-  }
-
-  const languages: ILangugae[] = [
-    {
-      id: 1,
-      name: "English",
-      value: "eng",
-    },
-    {
-      id: 2,
-      name: "Russian",
-      value: "rus",
-    },
-    {
-      id: 3,
-      name: "Xitoy",
-      value: "chi_sim",
-    },
-    {
-      id: 4,
-      name: "Japanese",
-      value: "jpn",
-    },
-    {
-      id: 5,
-      name: "Korean",
-      value: "kor",
-    },
-    {
-      id: 6,
-      name: "Arabic",
-      value: "ara",
-    },
+  const languages = [
+    { id: 1, name: "English", value: "eng" },
+    { id: 2, name: "Russian", value: "rus" },
+    { id: 3, name: "Xitoy", value: "chi_sim" },
+    { id: 4, name: "Japanese", value: "jpn" },
+    { id: 5, name: "Korean", value: "kor" },
+    { id: 6, name: "Arabic", value: "ara" },
   ];
 
   return (
@@ -102,7 +90,29 @@ const Language = () => {
         </div>
       </div>
       <div style={{ marginTop: 30 }}>
-        <CanvasDraw ref={canvasRef} canvasWidth={"1000"} />
+        <Stage
+          width={400}
+          height={400}
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          ref={stageRef}
+          style={{ border: "1px solid red", background: "white" }}
+        >
+          <Layer>
+            {lines.map((line, i) => (
+              <Line
+                key={i}
+                points={line}
+                strokeEnabled
+                strokeScaleEnabled
+                fillAfterStrokeEnabled
+                stroke='black'
+                strokeWidth={10}
+              />
+            ))}
+          </Layer>
+        </Stage>
         <div style={{ display: "flex", gap: 20 }}>
           <button onClick={handleRecognizeText} className='createBtn'>
             Submit
