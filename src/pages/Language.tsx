@@ -98,7 +98,7 @@ const Language = () => {
               </option>
             ))}
           </select>
-          <h1>Your language: {language}</h1>
+          <h1>Your language:: {language}</h1>
         </div>
       </div>
       <div style={{ marginTop: 30 }}>
