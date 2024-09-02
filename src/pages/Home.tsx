@@ -8,7 +8,14 @@ const Home = () => {
     <div className='container'>
       <div className='title_row'>
         <h1>List</h1>
-        <Link to={"/create-quiz"}>Create Flashcard</Link>
+        <div style={{display: "flex", gap: 20}}>
+          <Link to={"/language"} className='link_title'>
+            Language
+          </Link>
+          <Link to={"/create-quiz"} className='link_title'>
+            Create Flashcard
+          </Link>
+        </div>
       </div>
       <div className='quizes'>
         {quizzes.map((quiz) => (
