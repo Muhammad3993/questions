@@ -1,5 +1,5 @@
 /**
- * Swiper 11.1.11
+ * Swiper 11.1.12
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: August 28, 2024
+ * Released on: September 1, 2024
  */
 
 var Swiper = (function () {
@@ -7208,6 +7208,7 @@ var Swiper = (function () {
         slideLabelMessage: '{{index}} / {{slidesLength}}',
         containerMessage: null,
         containerRoleDescriptionMessage: null,
+        containerRole: null,
         itemRoleDescriptionMessage: null,
         slideRole: 'group',
         id: null,
@@ -7459,6 +7460,9 @@ var Swiper = (function () {
       }
       if (params.containerMessage) {
         addElLabel(containerEl, params.containerMessage);
+      }
+      if (params.containerRole) {
+        addElRole(containerEl, params.containerRole);
       }
 
       // Wrapper
@@ -9667,7 +9671,7 @@ var Swiper = (function () {
   }
 
   /**
-   * Swiper 11.1.11
+   * Swiper 11.1.12
    * Most modern mobile touch slider and framework with hardware accelerated transitions
    * https://swiperjs.com
    *
@@ -9675,7 +9679,7 @@ var Swiper = (function () {
    *
    * Released under the MIT License
    *
-   * Released on: August 28, 2024
+   * Released on: September 1, 2024
    */
 
 

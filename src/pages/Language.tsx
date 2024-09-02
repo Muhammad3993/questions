@@ -3,7 +3,7 @@ import Tesseract from "tesseract.js";
 import CanvasDraw from "react-canvas-draw";
 
 const Language = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<CanvasDraw>(null);
   const [recognizedText, setRecognizedText] = useState("");
   const [language, setLanguage] = useState("eng");
 
@@ -22,7 +22,8 @@ const Language = () => {
 
   const handleRecognizeText = () => {
     if (canvasRef.current) {
-      const canvas = canvasRef.current.canvasContainer.children[1];
+      const canvas = canvasRef.current.canvasContainer
+        .children[1] as HTMLCanvasElement;
       const image = canvas.toDataURL("image/png");
 
       Tesseract.recognize(image, language, {

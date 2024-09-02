@@ -1,7 +1,7 @@
 .swiper.swiper-cards {
   overflow: visible;
 }
-.swiper ::slotted(swiper-slide) {
+.swiper-cards ::slotted(swiper-slide) {
   transform-origin: center bottom;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;

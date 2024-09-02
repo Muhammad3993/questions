@@ -1,5 +1,5 @@
 /**
- * Swiper 11.1.11
+ * Swiper 11.1.12
  * Most modern mobile touch slider and framework with hardware accelerated transitions
  * https://swiperjs.com
  *
@@ -7,7 +7,7 @@
  *
  * Released under the MIT License
  *
- * Released on: August 28, 2024
+ * Released on: September 1, 2024
  */
 
 /* FONT_START */
@@ -727,7 +727,7 @@ button.swiper-pagination-bullet {
 .swiper.swiper-cards {
   overflow: visible;
 }
-.swiper .swiper-slide {
+.swiper-cards .swiper-slide {
   transform-origin: center bottom;
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
