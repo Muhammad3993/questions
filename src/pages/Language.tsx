@@ -14,29 +14,33 @@ const Language = () => {
     }
   }, []);
 
-  const handleLanguageChange = (e) => {
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedLanguage = e.target.value;
     setLanguage(selectedLanguage);
     sessionStorage.setItem("selectedLanguage", selectedLanguage);
   };
 
   const handleRecognizeText = () => {
-    const canvas = canvasRef.current.canvasContainer.children[1];
-    const image = canvas.toDataURL("image/png");
+    if (canvasRef.current) {
+      const canvas = canvasRef.current.canvasContainer.children[1];
+      const image = canvas.toDataURL("image/png");
 
-    Tesseract.recognize(image, language, {
-      logger: (info) => console.log(info),
-    })
-      .then(({ data: { text } }) => {
-        setRecognizedText(text);
+      Tesseract.recognize(image, language, {
+        logger: (info) => console.log(info),
       })
-      .catch((err) => {
-        console.error(err);
-      });
+        .then(({ data: { text } }) => {
+          setRecognizedText(text);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   };
 
   const handleClearCanvas = () => {
-    canvasRef.current.clear();
+    if (canvasRef.current) {
+      canvasRef.current.clear();
+    }
   };
 
   interface ILangugae {
@@ -82,13 +86,14 @@ const Language = () => {
     <div className='container'>
       <div style={{ marginTop: 30 }} className='title_row'>
         <h1>Choice Language</h1>
-        <div style={{display: "flex", gap: 20}}>
-          <select onChange={handleLanguageChange} style={{border: "none", outline: "none"}}>
+        <div style={{ display: "flex", gap: 20 }}>
+          <select
+            onChange={handleLanguageChange}
+            style={{ border: "none", outline: "none" }}
+          >
             {languages.map((lang) => (
               <option key={lang.id} value={lang.value}>
-                {
-                  lang.name
-                }
+                {lang.name}
               </option>
             ))}
           </select>
