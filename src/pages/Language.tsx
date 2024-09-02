@@ -27,7 +27,7 @@ const Language = () => {
       const image = canvas.toDataURL("image/png");
 
       Tesseract.recognize(image, language, {
-        logger: (info) => console.log(info),
+        logger: (info: string) => console.log(info),
       })
         .then(({ data: { text } }) => {
           setRecognizedText(text);
