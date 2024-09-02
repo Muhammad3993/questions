@@ -11,44 +11,61 @@ const Home = () => {
     const canvas: any = canvasRef.current;
     const context = canvas.getContext("2d");
 
-    const handleMouseDown = () => {
+    const handleStart = () => {
       setDrawing(true);
     };
 
-    const handleMouseUp = () => {
+    const handleEnd = () => {
       setDrawing(false);
       context.beginPath();
     };
 
-    const handleMouseMove = (event: any) => {
+    const handleMove = (event: any) => {
       if (!drawing) return;
 
-      context.lineWidth = 10;
+      const rect = canvas.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+
+      context.lineWidth = 5;
       context.lineCap = "round";
       context.strokeStyle = "black";
 
-      context.lineTo(
-        event.clientX - canvas.offsetLeft,
-        event.clientY - canvas.offsetTop,
-      );
+      context.lineTo(x, y);
       context.stroke();
       context.beginPath();
-      context.moveTo(
-        event.clientX - canvas.offsetLeft,
-        event.clientY - canvas.offsetTop,
-      );
+      context.moveTo(x, y);
     };
 
-    canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mousemove", handleMouseMove);
+    // Mouse events
+    canvas.addEventListener("mousedown", handleStart);
+    canvas.addEventListener("mouseup", handleEnd);
+    canvas.addEventListener("mousemove", handleMove);
+
+    // Touch events
+    canvas.addEventListener("touchstart", (e: any) => {
+      e.preventDefault();
+      handleStart(e);
+    });
+    canvas.addEventListener("touchend", handleEnd);
+    canvas.addEventListener("touchmove", (e: any) => {
+      e.preventDefault();
+      handleMove(e.touches[0]);
+    });
 
     return () => {
-      canvas.removeEventListener("mousedown", handleMouseDown);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("mousemove", handleMouseMove);
+      canvas.removeEventListener("mousedown", handleStart);
+      canvas.removeEventListener("mouseup", handleEnd);
+      canvas.removeEventListener("mousemove", handleMove);
+      canvas.removeEventListener("touchstart", handleStart);
+      canvas.removeEventListener("touchend", handleEnd);
+      canvas.removeEventListener("touchmove", (e: any) => {
+        e.preventDefault();
+        handleMove(e.touches[0]);
+      });
     };
   }, [drawing]);
+
   const quizzes: Quizz[] = useAppSelector((state) => state.quiz.quizzes);
   return (
     <div className='container'>
