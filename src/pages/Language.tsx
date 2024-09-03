@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Tesseract from "tesseract.js";
-import CanvasDraw from "react-canvas-draw";
+import DrawingCanvas from "../components/draw/DrawingCanvas"; // import qilish
 
 const Language = () => {
-  const canvasRef = useRef<CanvasDraw>(null);
+  const canvasRef = useRef(null);
   const [recognizedText, setRecognizedText] = useState("");
   const [language, setLanguage] = useState("eng");
 
@@ -22,8 +22,7 @@ const Language = () => {
 
   const handleRecognizeText = () => {
     if (canvasRef.current) {
-      const canvas = canvasRef.current.canvasContainer
-        .children[1] as HTMLCanvasElement;
+      const canvas = canvasRef.current;
       const image = canvas.toDataURL("image/png");
 
       Tesseract.recognize(image, language, {
@@ -39,8 +38,10 @@ const Language = () => {
   };
 
   const handleClearCanvas = () => {
-    if (canvasRef.current) {
-      canvasRef.current.clear();
+    const canvas = canvasRef.current;
+    if (canvas) {
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
 
@@ -51,45 +52,23 @@ const Language = () => {
   }
 
   const languages: ILangugae[] = [
-    {
-      id: 1,
-      name: "English",
-      value: "eng",
-    },
-    {
-      id: 2,
-      name: "Russian",
-      value: "rus",
-    },
-    {
-      id: 3,
-      name: "Xitoy",
-      value: "chi_sim",
-    },
-    {
-      id: 4,
-      name: "Japanese",
-      value: "jpn",
-    },
-    {
-      id: 5,
-      name: "Korean",
-      value: "kor",
-    },
-    {
-      id: 6,
-      name: "Arabic",
-      value: "ara",
-    },
+    { id: 1, name: "English", value: "eng" },
+    { id: 2, name: "Russian", value: "rus" },
+    { id: 3, name: "Chinese", value: "chi_sim" },
+    { id: 4, name: "Japanese", value: "jpn" },
+    { id: 5, name: "Korean", value: "kor" },
+    { id: 6, name: "Arabic", value: "ara" },
   ];
 
   return (
     <div className='container'>
       <div style={{ marginTop: 30 }} className='title_row'>
-        <h1>Choice Language</h1>
+        <h1></h1>
         <div style={{ display: "flex", gap: 20 }}>
+          <h1>Language: </h1>
           <select
             onChange={handleLanguageChange}
+            value={language}
             style={{ border: "none", outline: "none" }}
           >
             {languages.map((lang) => (
@@ -98,11 +77,10 @@ const Language = () => {
               </option>
             ))}
           </select>
-          <h1>Your language: {language}</h1>
         </div>
       </div>
       <div style={{ marginTop: 30 }}>
-        <CanvasDraw ref={canvasRef} canvasWidth={"1000"} />
+        <DrawingCanvas ref={canvasRef} />
         <div style={{ display: "flex", gap: 20 }}>
           <button onClick={handleRecognizeText} className='createBtn'>
             Submit
