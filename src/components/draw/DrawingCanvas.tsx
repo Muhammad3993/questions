@@ -1,12 +1,13 @@
 import { useRef, useState, useEffect, forwardRef } from "react";
 
-const DrawingCanvas = forwardRef((props, ref) => {
+const DrawingCanvas = forwardRef((props, ref: any) => {
   const canvasRef = useRef(null);
   const [drawing, setDrawing] = useState(false);
 
   useEffect(() => {
     const canvas: any = canvasRef.current;
     const context = canvas.getContext("2d");
+    
 
     const handleStart = () => {
       setDrawing(true);
@@ -76,8 +77,6 @@ const DrawingCanvas = forwardRef((props, ref) => {
         width={"1430"}
         height={400}
         style={{
-          // width: "100%",
-          height: "400px",
           border: "1px solid black",
           background: "white",
         }}

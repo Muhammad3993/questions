@@ -22,11 +22,11 @@ const Language = () => {
 
   const handleRecognizeText = () => {
     if (canvasRef.current) {
-      const canvas = canvasRef.current;
+      const canvas: any = canvasRef.current;
       const image = canvas.toDataURL("image/png");
 
       Tesseract.recognize(image, language, {
-        logger: (info) => console.log(info),
+        logger: (info: string) => console.log(info),
       })
         .then(({ data: { text } }) => {
           setRecognizedText(text);
@@ -38,9 +38,9 @@ const Language = () => {
   };
 
   const handleClearCanvas = () => {
-    const canvas = canvasRef.current;
+    const canvas: any = canvasRef.current;
     if (canvas) {
-      const context = canvas.getContext('2d');
+      const context = canvas.getContext("2d");
       context.clearRect(0, 0, canvas.width, canvas.height);
     }
   };
