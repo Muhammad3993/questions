@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { Quizz } from "../../interfaces";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectFlip, Navigation, Pagination } from "swiper/modules";
-import SwiperCore from "swiper"
+import SwiperCore from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
@@ -20,17 +20,13 @@ const FlashCard = () => {
   const swiperRef = useRef<SwiperCore | null>(null);
 
   const handleNext = () => {
-    // if (swiperRef.current) {
-      swiperRef.current?.slideNext();
-    // }
-    setShowDefinition(false)
+    swiperRef.current?.slideNext();
+    setShowDefinition(false);
   };
 
   const handlePrev = () => {
-    // if (swiperRef.current) {
-      swiperRef.current?.slidePrev();
-    // }
-    setShowDefinition(false)
+    swiperRef.current?.slidePrev();
+    setShowDefinition(false);
   };
 
   const toggleShowDefinition = () => {
@@ -55,13 +51,12 @@ const FlashCard = () => {
         navigation={false}
         modules={[Navigation, EffectFlip, Pagination]}
         onSwiper={(swiper) => {
-          swiperRef.current = swiper; // Set the swiper instance to the ref
+          swiperRef.current = swiper; 
         }}
         onSlideChange={(swiper) => {
           setActiveIndex(swiper.activeIndex);
         }}
-        // ref={swiperRef}
-        className='mySwiper container'
+        className='mySwiper'
       >
         {quiz.questions.map((question, index) => (
           <SwiperSlide key={index}>
@@ -89,7 +84,11 @@ const FlashCard = () => {
         <div className='custom_pagination'></div>
         <div
           onClick={handleNext}
-          className={activeIndex === quiz.questions.length - 1 ? `custom_next` : "custom_next active"}
+          className={
+            activeIndex === quiz.questions.length - 1
+              ? `custom_next`
+              : "custom_next active"
+          }
         >
           <FaArrowRight />
         </div>
