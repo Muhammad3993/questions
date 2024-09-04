@@ -38,7 +38,8 @@ const TwoLvl = () => {
     const wrongAnswers = quiz?.questions
       .filter((_, index) => index !== currentIndex)
       .map((question) => question.defination)
-      .sort(() => Math.random() - 0.5);
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
 
     const options = [correctAnswer, ...wrongAnswers].sort(
       () => Math.random() - 0.5,
