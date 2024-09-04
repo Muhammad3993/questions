@@ -43,7 +43,7 @@ const DrawingCanvas = forwardRef((_, ref: any) => {
     // Touch events
     canvas.addEventListener("touchstart", (e: any) => {
       e.preventDefault();
-      handleStart(e);
+      handleStart();
     });
     canvas.addEventListener("touchend", handleEnd);
     canvas.addEventListener("touchmove", (e: any) => {
