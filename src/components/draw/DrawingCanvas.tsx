@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect, forwardRef } from "react";
 
-const DrawingCanvas = forwardRef((props: any, ref: any) => {
+const DrawingCanvas = forwardRef((_, ref: any) => {
   const canvasRef = useRef(null);
   const [drawing, setDrawing] = useState(false);
 
