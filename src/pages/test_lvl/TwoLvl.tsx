@@ -15,7 +15,6 @@ const TwoLvl = () => {
   const [congratulations, setCongratulations] = useState<string>("");
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
 
-  console.log(userAnswers);
 
   const playSuccessSound = () => {
     const audio = new Audio(successSound);
@@ -33,19 +32,28 @@ const TwoLvl = () => {
     }
   }, [currentIndex, quiz.questions]);
 
+  const shuffleArray = (array: string[]): string[] => {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  };
+  
+
   const shuffleOptions = () => {
     const correctAnswer = quiz?.questions[currentIndex].defination;
     const wrongAnswers = quiz?.questions
       .filter((_, index) => index !== currentIndex)
-      .map((question) => question.defination)
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
-
-    const options = [correctAnswer, ...wrongAnswers].sort(
-      () => Math.random() - 0.5,
-    );
+      .map((question) => question.defination);
+  
+    const selectedWrongAnswers = shuffleArray(wrongAnswers).slice(0, 3);
+  
+    const options = shuffleArray([correctAnswer, ...selectedWrongAnswers]);
+  
     setShuffledOptions(options);
   };
+  
 
   const handleAnswerClick = (answer: string) => {
     if (buttonsDisabled) return;
@@ -93,8 +101,6 @@ const TwoLvl = () => {
   if (quiz?.questions.length === 0) {
     return <p>No questions available. Please add some questions first.</p>;
   }
-
-  // console.log(score);
 
   if (showResult) {
     const notstudied = quiz.questions.length - score;
