@@ -15,7 +15,6 @@ const TwoLvl = () => {
   const [congratulations, setCongratulations] = useState<string>("");
   const [buttonsDisabled, setButtonsDisabled] = useState<boolean>(false);
 
-
   const playSuccessSound = () => {
     const audio = new Audio(successSound);
     audio.play();
@@ -39,21 +38,19 @@ const TwoLvl = () => {
     }
     return array;
   };
-  
 
   const shuffleOptions = () => {
     const correctAnswer = quiz?.questions[currentIndex].defination;
     const wrongAnswers = quiz?.questions
       .filter((_, index) => index !== currentIndex)
       .map((question) => question.defination);
-  
+
     const selectedWrongAnswers = shuffleArray(wrongAnswers).slice(0, 3);
-  
+
     const options = shuffleArray([correctAnswer, ...selectedWrongAnswers]);
-  
+
     setShuffledOptions(options);
   };
-  
 
   const handleAnswerClick = (answer: string) => {
     if (buttonsDisabled) return;
@@ -113,13 +110,15 @@ const TwoLvl = () => {
           <h1>Don't stop now, you're on a roll</h1>
         </div>
         <div className='result_left'>
-          <div
-            className='result_circle'
-            style={{
-              background: `conic-gradient(green ${percentage}%, red 0%)`,
-            }}
-          >
-            <p className='result_circle_title'>{percentage}%</p>
+          <div>
+            <div
+              className='result_circle'
+              style={{
+                background: `conic-gradient(green ${percentage}%, red 0%)`,
+              }}
+            >
+              <p className='result_circle_title'>{percentage}%</p>
+            </div>
           </div>
           <div className='result_box'>
             <div className='studied'>

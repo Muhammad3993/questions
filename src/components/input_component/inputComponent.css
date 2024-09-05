@@ -40,6 +40,7 @@
   border-bottom: 3px solid #cccccc;
   overflow: hidden;
   transition: 0.5s;
+  margin-top: 30px;
 }
 
 .inputTitle:focus-within,
@@ -99,4 +100,15 @@
   text-transform: uppercase;
   border-bottom: 5px solid aqua;
   padding: 10px;
+}
+
+@media screen and (max-width: 630px){
+  .inputTitle,
+  .input {
+    width: 100%;
+  }
+
+  .inputRow {
+    flex-direction: column;
+  }
 }

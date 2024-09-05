@@ -153,7 +153,7 @@ const OneLvl = () => {
     .join(" ");
 
   return (
-    <div className='container'>
+    <div>
       <div className='quiz_box'>
         <div className='flashcard-content'>
           <p>Term</p>
@@ -200,8 +200,8 @@ const OneLvl = () => {
         </div>
         {dontKnow || error ? (
           <div
-            className='quiz_input'
-            style={{ border: "3px dashed greenyellow" }}
+            className='quiz_input quiz_input_error'
+            style={{ height: "max-content", border: "3px dashed greenyellow", }}
           >
             <p>Correct answer: {currentQuestion.defination}</p>
           </div>
