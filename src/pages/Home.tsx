@@ -52,16 +52,14 @@ const Home = () => {
             .then((response) => response.json())
             .then((data) => {
               console.log("Foydalanuvchi ma'lumotlari yuborildi:", data);
-              setMessage(
-                `Salom, ${firstName}! Ma'lumotlaringiz backend ga yuborildi.`,
-              );
+              setMessage(firstName);
             })
             .catch((error) => {
               console.error("Xato yuz berdi:", error);
-              setMessage("Ma'lumotlarni yuborishda xato yuz berdi.");
+              setMessage("Xatolik");
             });
         } else {
-          setMessage("Foydalanuvchi ma'lumotlari olinmadi.");
+          setMessage("Ma`lumotsiz");
         }
       }
     };
@@ -75,8 +73,8 @@ const Home = () => {
     <>
       <div className='container'>
         <div className='title_row'>
-          <h1>List | {message}</h1>{" "}
-          {/* Displaying first_name */}
+          <h1>List</h1>
+          <p>{message}</p>
           <div style={{ display: "flex", gap: 20 }}>
             <Link to={"/language"} className='link_title'>
               Language
