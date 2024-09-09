@@ -56,7 +56,7 @@ const Home = () => {
       <div className='App'>
         <h1>Telegram Mini App</h1>
         {user ? (
-          <h2>Salom, {user.firstName}!</h2>
+          <h2>Salom, {user.first_name}!</h2>
         ) : (
           <h2>Foydalanuvchi ma'lumotlari olinmadi.</h2>
         )}
