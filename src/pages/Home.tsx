@@ -3,27 +3,28 @@ import { Quizz } from "../interfaces";
 import { useAppSelector } from "../redux";
 import { useEffect, useState } from "react";
 
+interface TelegramUser {
+  id: number;
+  first_name: string;
+  username?: string; // Optional if the user doesn't have a username
+}
+
 const Home = () => {
   const quizzes: Quizz[] = useAppSelector((state) => state.quiz.quizzes);
-
-  const [user, setUser] = useState(null);
-  const [isTelegram, setIsTelegram] = useState(false);
+  const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
-    // Telegram WebApp API'ni faqat Telegram ilovasi orqali ishlatish uchun tekshirish
     if (window.Telegram && window.Telegram.WebApp) {
       const tg = window.Telegram.WebApp;
       tg.ready();
-      setIsTelegram(true); // Telegram'da ekanligimizni belgilash
 
-      const initDataUnsafe = tg.initDataUnsafe;
-      const user = initDataUnsafe?.user;
+      const userData = tg.initDataUnsafe.user;
 
-      if (user) {
+      if (userData) {
         setUser({
-          firstName: user.first_name || "Foydalanuvchi",
-          username: user.username || "Username mavjud emas",
-          telegramId: user.id,
+          id: userData.id,
+          first_name: userData.first_name,
+          username: userData.username,
         });
       }
     }
@@ -54,14 +55,10 @@ const Home = () => {
       </div>
       <div className='App'>
         <h1>Telegram Mini App</h1>
-        {isTelegram ? (
-          user ? (
-            <h2>Salom, {user.firstName}!</h2>
-          ) : (
-            <h2>Foydalanuvchi ma'lumotlari olinmadi.</h2>
-          )
+        {user ? (
+          <h2>Salom, {user.firstName}!</h2>
         ) : (
-          <h2>Telegram ilovasi orqali oching.</h2>
+          <h2>Foydalanuvchi ma'lumotlari olinmadi.</h2>
         )}
       </div>
     </>
