@@ -11,6 +11,7 @@ interface TelegramUser {
 
 const Home = () => {
   const quizzes: Quizz[] = useAppSelector((state) => state.quiz.quizzes);
+
   const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ const Home = () => {
     <>
       <div className='container'>
         <div className='title_row'>
-          <h1>List | {user?.firstName}</h1>
+          <h1>List | {user && user}</h1>
           <div style={{ display: "flex", gap: 20 }}>
             <Link to={"/language"} className='link_title'>
               Language
