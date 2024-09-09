@@ -81,49 +81,59 @@ const Home = () => {
   const [message, setMessage] = useState("Mini-ilovaga xush kelibsiz!!");
 
   useEffect(() => {
-    // Telegram Web App API'ni ishga tushirish
-    const tg = window.Telegram?.WebApp;
-    if (tg) {
-      tg.ready();
+    // Dynamically load the Telegram Web App script
+    const script = document.createElement("script");
+    script.src = "https://telegram.org/js/telegram-web-app.js";
+    script.async = true;
+    document.body.appendChild(script);
 
-      // Foydalanuvchi ma'lumotlarini olish
-      const userData = tg.initDataUnsafe?.user;
-      if (userData) {
-        const firstName = userData.first_name || "Foydalanuvchi";
-        const username = userData.username || "Username mavjud emas";
+    script.onload = () => {
+      const tg = window.Telegram?.WebApp;
+      if (tg) {
+        tg.ready();
 
-        // Foydalanuvchi ma'lumotlarini o'rnatish
-        setUser({
-          id: userData.id,
-          first_name: firstName,
-          username: username,
-        });
+        const userData = tg.initDataUnsafe?.user;
+        if (userData) {
+          const firstName = userData.first_name || "Foydalanuvchi";
+          const username = userData.username || "Username mavjud emas";
 
-        // Backendga foydalanuvchi ma'lumotlarini yuborish
-        fetch("https://668cf8d5099db4c579f12c4b.mockapi.io/users/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            telegramId: userData.id,
-            firstName: firstName,
+          setUser({
+            id: userData.id,
+            first_name: firstName,
             username: username,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Foydalanuvchi ma'lumotlari yuborildi:", data);
-            setMessage(`Salom, ${firstName}! Ma'lumotlaringiz backend ga yuborildi.`);
-          })
-          .catch((error) => {
-            console.error("Xato yuz berdi:", error);
-            setMessage("Ma'lumotlarni yuborishda xato yuz berdi.");
           });
-      } else {
-        setMessage("Foydalanuvchi ma'lumotlari olinmadi.");
+
+          fetch("https://668cf8d5099db4c579f12c4b.mockapi.io/users/users", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              telegramId: userData.id,
+              firstName: firstName,
+              username: username,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Foydalanuvchi ma'lumotlari yuborildi:", data);
+              setMessage(
+                `Salom, ${firstName}! Ma'lumotlaringiz backend ga yuborildi.`,
+              );
+            })
+            .catch((error) => {
+              console.error("Xato yuz berdi:", error);
+              setMessage("Ma'lumotlarni yuborishda xato yuz berdi.");
+            });
+        } else {
+          setMessage("Foydalanuvchi ma'lumotlari olinmadi.");
+        }
       }
-    }
+    };
+
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
 
   const handleClick = () => {
@@ -131,7 +141,7 @@ const Home = () => {
   };
 
   return (
-    <div className="container">
+    <div className='container'>
       <h2>{message}</h2>
       <button onClick={handleClick}>Start</button>
     </div>
