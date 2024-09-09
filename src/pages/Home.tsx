@@ -15,7 +15,7 @@ const Home = () => {
   const [user, setUser] = useState<TelegramUser | null>(null);
 
   useEffect(() => {
-    if (window.Telegram && window.Telegram.WebApp) {
+    if (window?.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
       tg.ready();
 
@@ -29,13 +29,13 @@ const Home = () => {
         });
       }
     }
-  }, [user]);
+  }, []); // Removed 'user' from the dependency array
 
   return (
     <>
       <div className='container'>
         <div className='title_row'>
-          <h1>List | {user && user}</h1>
+          <h1>List | {user ? user.first_name : "Guest"}</h1> {/* Displaying first_name */}
           <div style={{ display: "flex", gap: 20 }}>
             <Link to={"/language"} className='link_title'>
               Language
